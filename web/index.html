@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f2a22">
+<title>Meridian – Finansbrief</title>
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/cormorant-garamond-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-latin-500-italic.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format('woff2')}
+:root{
+  --green:#0f2a22; --green2:#17382d; --green3:#21493c;
+  --cream:#f6f1e6; --paper:#fbf8f1; --ink:#1b1f1d; --muted:#6b6f69;
+  --brass:#b08d4a; --brass2:#cfae6b; --line:#ddd3bd;
+  --up:#2f6b4a; --down:#8c3a32; --warn:#a9782a;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px;background:#0a1d17}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* Disclaimer strip */
+.strip{background:#0a1d17;color:var(--brass2);font-size:12px;letter-spacing:.04em;text-align:center;padding:8px 14px}
+
+/* Hero */
+header.hero{background:radial-gradient(1200px 500px at 80% -10%,#21493c 0,transparent 60%),var(--green);color:var(--cream);padding:56px 0 64px;border-bottom:3px solid var(--brass)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:38px}
+.crest{width:40px;height:40px;border:1px solid var(--brass);border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:22px;color:var(--brass2)}
+.brand b{font-family:var(--serif);font-size:24px;letter-spacing:.28em;font-weight:600}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,6vw,68px);line-height:1.05;max-width:760px}
+.hero h1 em{color:var(--brass2)}
+.hero p.sub{max-width:560px;margin-top:18px;color:#cfd6cf;font-size:16px}
+.dateline{margin-top:30px;display:flex;flex-wrap:wrap;gap:22px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass2)}
+.dateline span::before{content:"◆ ";font-size:8px;vertical-align:2px}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(251,248,241,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav a{white-space:nowrap;text-decoration:none;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:16px 12px;border-bottom:2px solid transparent}
+nav a:hover,nav a.on{color:var(--green);border-bottom-color:var(--brass)}
+
+/* Sections */
+section{padding:64px 0 8px}
+.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4vw,44px);color:var(--green);line-height:1.1;margin:6px 0 10px}
+.lede{color:var(--muted);max-width:660px;margin-bottom:28px}
+.rule{height:1px;background:linear-gradient(90deg,var(--brass),transparent);margin:0 0 28px;max-width:140px}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:22px;box-shadow:0 1px 0 #fff inset,0 8px 24px -18px rgba(15,42,34,.4)}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.tag{display:inline-block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--brass);color:var(--brass);border-radius:2px;white-space:nowrap}
+.tag.est{background:#f3ead4}
+.tag.g{border-color:var(--up);color:var(--up)}
+.tag.r{border-color:var(--down);color:var(--down)}
+.tag.y{border-color:var(--warn);color:var(--warn)}
+.small{font-size:12.5px;color:var(--muted)}
+.serif{font-family:var(--serif)}
+
+/* Brief */
+.brief-item{display:grid;grid-template-columns:48px 1fr auto;gap:16px;padding:20px 0;border-top:1px solid var(--line)}
+.brief-item:first-child{border-top:0}
+.num{font-family:var(--serif);font-size:38px;color:var(--brass);line-height:1}
+.brief-item h3{font-family:var(--serif);font-size:23px;line-height:1.2;color:var(--green);margin-bottom:6px}
+.why{margin-top:8px;font-size:13.5px}
+.why b{color:var(--green)}
+.spec{margin-top:8px;font-size:13px;color:var(--muted);font-style:italic;border-left:2px solid var(--brass2);padding-left:10px}
+.trust{text-align:center;min-width:86px}
+.ring{--p:70;width:70px;height:70px;border-radius:50%;background:conic-gradient(var(--c,var(--up)) calc(var(--p)*1%),#e7dfcb 0);display:grid;place-items:center;margin:0 auto 6px}
+.ring i{width:54px;height:54px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font-style:normal;font-family:var(--serif);font-size:20px;font-weight:700;color:var(--green)}
+.trust small{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* Picks */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px}
+.seg{display:inline-flex;border:1px solid var(--brass);border-radius:3px;overflow:hidden}
+.seg button{background:none;border:0;padding:8px 14px;font:500 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--green);cursor:pointer}
+.seg button.on{background:var(--green);color:var(--cream)}
+.pick{display:grid;grid-template-columns:44px 1.3fr 1.4fr 160px;gap:18px;align-items:center;padding:18px 0;border-top:1px solid var(--line)}
+.pick:first-child{border-top:0}
+.rank{font-family:var(--serif);font-size:34px;color:var(--brass)}
+.pick h3{font-family:var(--serif);font-size:22px;color:var(--green);line-height:1.15}
+.pick .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.pick .th{font-size:13px}
+.pick .th div{margin-bottom:3px}
+.pick .th b.p{color:var(--up)} .pick .th b.m{color:var(--down)}
+.range{position:relative;height:8px;border-radius:4px;background:linear-gradient(90deg,#c9a39d,#e9e1cc 50%,#a9c7b4);margin:8px 0 6px}
+.range i{position:absolute;top:-4px;width:2px;height:16px;background:var(--green)}
+.rl{display:flex;justify-content:space-between;font-size:12px;font-weight:600}
+.rl .d{color:var(--down)} .rl .u{color:var(--up)}
+.chg{font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.chg.up{color:var(--up)} .chg.down{color:var(--down)} .chg.new{color:var(--brass)} .chg.same{color:var(--muted)}
+.bench{margin-top:34px}
+.bench h3{font-family:var(--serif);font-size:26px;color:var(--green);margin-bottom:4px}
+.benchgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:14px}
+.bcard{border:1px solid var(--line);background:var(--paper);padding:14px;border-radius:3px}
+.bcard b{font-family:var(--serif);font-size:18px;color:var(--green)}
+
+/* Forecast */
+.fc{display:flex;flex-direction:column;gap:10px}
+.fc h3{font-family:var(--serif);font-size:24px;color:var(--green)}
+.fc .hz{display:flex;justify-content:space-between;align-items:center}
+.arrow{font-family:var(--serif);font-size:28px}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--warn)}
+.change{font-size:12.5px;background:#f3ead4;border-radius:3px;padding:8px 10px}
+
+/* Avisjekk */
+.papers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:16px}
+.paper{border:1px solid var(--line);background:#fff;padding:14px;border-radius:3px}
+.paper b{font-family:var(--serif);font-size:19px;color:var(--green);display:block}
+.paper .ang{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin:2px 0 6px}
+mark{background:#efe0b3;padding:0 2px}
+
+/* Alerts */
+.alert{display:grid;grid-template-columns:1fr auto;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.alert:first-child{border-top:0}
+.alert h4{font-family:var(--serif);font-size:20px;color:var(--green)}
+.meter{width:120px}
+.meter .bar{height:6px;background:#e7dfcb;border-radius:3px;overflow:hidden}
+.meter .bar i{display:block;height:100%;background:var(--warn)}
+
+/* Tiles */
+.tile .v{font-family:var(--serif);font-size:32px;color:var(--green);line-height:1.1}
+.tile .l{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tile svg{width:100%;height:36px;margin-top:8px}
+
+/* Calendar */
+.cal{display:grid;grid-template-columns:76px 1fr auto;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.cal:first-child{border-top:0}
+.cal .dt{font-family:var(--serif);font-size:22px;color:var(--green);line-height:1.1}
+.cal .dt small{display:block;font:11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--brass)}
+
+/* Portfolio & sim */
+input,select{font:14px var(--sans);padding:10px 12px;border:1px solid var(--line);background:#fff;border-radius:3px;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--brass2);outline-offset:1px}
+.btn{background:var(--green);color:var(--cream);border:0;padding:11px 20px;font:500 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;border-radius:3px;cursor:pointer;border-bottom:2px solid var(--brass)}
+.btn:hover{background:var(--green3)}
+.btn.ghost{background:none;color:var(--green);border:1px solid var(--line)}
+.form{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.prow{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.prow:first-of-type{border-top:0}
+.sl{margin:14px 0}
+.sl label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+input[type=range]{width:100%;padding:0;accent-color:var(--brass)}
+.simout{font-family:var(--serif);font-size:44px;line-height:1}
+
+/* Sentiment */
+.sent{height:12px;border-radius:6px;background:linear-gradient(90deg,#8c3a32,#c9a14a 50%,#2f6b4a);position:relative;margin:18px 0 6px}
+.sent i{position:absolute;top:-6px;width:4px;height:24px;background:var(--green);border-radius:2px}
+.sl2{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* Track */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:8px 6px;border-bottom:1px solid var(--brass)}
+td{padding:11px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.scroll{overflow-x:auto}
+
+/* Glossary */
+details{border-top:1px solid var(--line);padding:12px 0}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-family:var(--serif);font-size:20px;color:var(--green);list-style:none}
+summary::after{content:"+";float:right;color:var(--brass)}
+details[open] summary::after{content:"–"}
+details p{margin-top:8px;color:#444}
+
+/* Weekly */
+.wk li{margin:0 0 8px 18px}
+.wk li::marker{color:var(--brass)}
+
+footer{margin-top:72px;background:var(--green);color:#b9c4bc;padding:40px 0 60px;border-top:3px solid var(--brass);font-size:13px}
+footer b{color:var(--brass2);font-family:var(--serif);font-size:20px;letter-spacing:.2em;font-weight:600}
+footer p{max-width:760px;margin-top:12px}
+
+@media(max-width:820px){
+  .pick{grid-template-columns:36px 1fr;grid-template-areas:"r a" "r b" "r c"}
+  .pick .rank{grid-area:r;align-self:start}
+  .pick>div:nth-child(2){grid-area:a}.pick>div:nth-child(3){grid-area:b}.pick>div:nth-child(4){grid-area:c}
+  .brief-item{grid-template-columns:34px 1fr}
+  .brief-item .trust{grid-column:2;text-align:left;display:flex;align-items:center;gap:12px}
+  .brief-item .ring{margin:0}
+  .alert{grid-template-columns:1fr}
+  .cal{grid-template-columns:64px 1fr}.cal .tag{grid-column:2;justify-self:start}
+  section{padding-top:48px}
+}
+</style>
+</head>
+<body>
+
+<div class="strip">EKSEMPELDATA · ALLE TALL ER ESTIMATER · IKKE INVESTERINGSRÅD</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><div class="crest">M</div><b>MERIDIAN</b></div>
+    <h1>Verdens økonomi, <em>lest for deg</em> mens du levde livet.</h1>
+    <p class="sub">En stille, daglig gjennomgang av markedene. Nyheter veid mot tall, mistanker merket som mistanker, og alle fremtidsutsikter åpent oppgitt som estimater.</p>
+    <div class="dateline"><span id="today"></span><span>Oppdatert 06:30</span><span>Neste ukeliste søndag</span></div>
+  </div>
+</header>
+
+<nav><div class="wrap" id="nav">
+  <a href="#brief">Dagens brief</a><a href="#forslag">Ukens 10</a><a href="#forecast">Utsikter</a>
+  <a href="#avis">Avisjekk</a><a href="#varsler">Varsler</a><a href="#norge">Norge</a>
+  <a href="#kalender">Kalender</a><a href="#portefolje">Portefølje</a><a href="#scenario">Scenario</a>
+  <a href="#sentiment">Stemning</a><a href="#innside">Innsidehandel</a><a href="#spor">Treffsikkerhet</a>
+  <a href="#uke">Uken</a><a href="#forklar">Forklar meg</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="brief">
+  <div class="eyebrow">I dag</div><h2>Morgenbrief</h2><div class="rule"></div>
+  <p class="lede">De fem viktigste sakene. Tillitsmåleren viser hvor godt saken holder: uavhengige kilder og samsvar med harde tall. Avsnittet «Bak kulissene» er spekulasjon og er merket slik.</p>
+  <div class="card" id="briefList"></div>
+</section>
+
+<section id="forslag">
+  <div class="eyebrow">Hver uke</div><h2>Ukens ti</h2><div class="rule"></div>
+  <p class="lede">Ti selskaper øverst, hentet fra en liste på de 20 best rangerte. Hver søndag kan noen byttes ut og andre bli stående. <span class="tag est">Estimat</span> Tapsspenn og gevinstspenn gjelder 12 måneder og bygger på historiske tall og scenarier. Ingen kan love noe av det.</p>
+  <div class="toolbar">
+    <span class="small">Min risikoprofil:</span>
+    <div class="seg" id="riskSeg">
+      <button data-r="5" class="on">Alle</button><button data-r="2">Forsiktig</button><button data-r="3">Moderat</button><button data-r="4">Offensiv</button>
+    </div>
+    <span class="small" id="riskNote"></span>
+  </div>
+  <div class="card" id="picks"></div>
+  <div class="bench">
+    <h3>På benken · plass 11–20</h3>
+    <p class="small">Kandidater som kan rykke opp neste uke.</p>
+    <div class="benchgrid" id="bench"></div>
+  </div>
+</section>
+
+<section id="forecast">
+  <div class="eyebrow">Fremover</div><h2>Økonomiske utsikter</h2><div class="rule"></div>
+  <p class="lede"><span class="tag est">Estimat</span> Kort sikt er 3–6 måneder, lang sikt 2–5 år. Hver vurdering har begrunnelse og angir hva som ville fått oss til å endre mening.</p>
+  <div class="grid g2" id="fc"></div>
+</section>
+
+<section id="avis">
+  <div class="eyebrow">Samme sak, ulike briller</div><h2>Avisjekk</h2><div class="rule"></div>
+  <p class="lede">Én sak, lest i flere aviser side om side. Forskjeller i vinkling er uthevet. Ved betalingsmur leses overskrift og ingress.</p>
+  <div class="card" id="avisBox"></div>
+</section>
+
+<section id="varsler">
+  <div class="eyebrow">Mistanke, ikke fasit</div><h2>Mistenkelige bevegelser</h2><div class="rule"></div>
+  <p class="lede">Uvanlig volum eller kursbevegelse før en nyhet kommer ut. Mistanke-nivået er en estimert sannsynlighet for at noe uvanlig skjer. Det er ikke et bevis for manipulasjon.</p>
+  <div class="card" id="alerts"></div>
+</section>
+
+<section id="norge">
+  <div class="eyebrow">Hjemmebane</div><h2>Norske forhold</h2><div class="rule"></div>
+  <div class="grid g3" id="tiles"></div>
+</section>
+
+<section id="kalender">
+  <div class="eyebrow">Hva som kommer</div><h2>Rentemøter og regnskap</h2><div class="rule"></div>
+  <div class="card" id="cal"></div>
+</section>
+
+<section id="portefolje">
+  <div class="eyebrow">Ditt</div><h2>Portefølje og favoritter</h2><div class="rule"></div>
+  <p class="lede">Legg inn det du eier eller følger. Lagres kun på denne enheten.</p>
+  <div class="card">
+    <div class="form">
+      <input id="pName" placeholder="Selskap eller fond" list="names">
+      <datalist id="names"></datalist>
+      <input id="pAmt" type="number" min="0" placeholder="Beløp (kr)">
+      <button class="btn" id="pAdd">Legg til</button>
+    </div>
+    <div id="pList"></div>
+  </div>
+</section>
+
+<section id="scenario">
+  <div class="eyebrow">Hva om</div><h2>Scenario-simulator</h2><div class="rule"></div>
+  <p class="lede">Se hvordan porteføljen din kan reagere. <span class="tag est">Estimat</span> Følsomhetene er grove og forenklede.</p>
+  <div class="card">
+    <div class="sl"><label><span>Rentenivå endres</span><b id="rv">0,0 pp</b></label><input type="range" id="rate" min="-2" max="2" step="0.25" value="0"></div>
+    <div class="sl"><label><span>Oljepris endres</span><b id="ov">0 %</b></label><input type="range" id="oil" min="-40" max="40" step="5" value="0"></div>
+    <div class="simout" id="simOut">–</div>
+    <p class="small" id="simTxt" style="margin-top:6px"></p>
+  </div>
+</section>
+
+<section id="sentiment">
+  <div class="eyebrow">Temperaturen</div><h2>Stemningsindeks</h2><div class="rule"></div>
+  <div class="card">
+    <p>Er nyhetsdekningen unormalt redd eller grådig akkurat nå? <span class="tag est">Estimat</span></p>
+    <div class="sent"><i id="sentPin"></i></div>
+    <div class="sl2"><span>Panikk</span><span>Nøytral</span><span>Eufori</span></div>
+    <p class="small" id="sentTxt" style="margin-top:12px"></p>
+  </div>
+</section>
+
+<section id="innside">
+  <div class="eyebrow">Meldepliktig</div><h2>Innsidehandel</h2><div class="rule"></div>
+  <div class="card" id="insider"></div>
+</section>
+
+<section id="spor">
+  <div class="eyebrow">Ærlighet</div><h2>Hadde vi rett?</h2><div class="rule"></div>
+  <p class="lede">Meridian husker sine egne vurderinger og viser om de traff. Dette er hvor mye du kan stole på den.</p>
+  <div class="card scroll">
+    <div style="display:flex;gap:30px;flex-wrap:wrap;margin-bottom:14px">
+      <div><div class="serif" style="font-size:40px;color:var(--green)" id="hit">–</div><div class="small">Treffprosent (eksempel)</div></div>
+    </div>
+    <table><thead><tr><th>Dato</th><th>Vurdering</th><th>Utfall</th><th></th></tr></thead><tbody id="track"></tbody></table>
+  </div>
+</section>
+
+<section id="uke">
+  <div class="eyebrow">Søndag</div><h2>Ukens oppsummering</h2><div class="rule"></div>
+  <div class="grid g2">
+    <div class="card"><h3 class="serif" style="font-size:24px;color:var(--green)">Det som faktisk endret seg</h3><ul class="wk" style="margin-top:10px" id="wkReal"></ul></div>
+    <div class="card"><h3 class="serif" style="font-size:24px;color:var(--green)">Det som var støy</h3><ul class="wk" style="margin-top:10px" id="wkNoise"></ul></div>
+  </div>
+  <p class="small" style="margin-top:14px">Push-varsler sendes bare ved vesentlige hendelser, så du slipper doomscrolling. Innstilling kommer i neste versjon.</p>
+</section>
+
+<section id="forklar">
+  <div class="eyebrow">Enkelt sagt</div><h2>Forklar meg</h2><div class="rule"></div>
+  <div class="card" id="gloss"></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <b>MERIDIAN</b>
+    <p>Meridian er et privat hjelpemiddel. Innholdet er generell informasjon og estimater og er ikke personlig investeringsrådgivning. Historiske tall sier ikke noe sikkert om fremtiden, og du kan tape penger. «Bak kulissene» og mistanker er spekulasjon, ikke fakta. All data på denne siden er eksempeldata til designformål.</p>
+  </div>
+</footer>
+
+<script>
+/* ============ DATA (byttes senere ut med data.json fra server) ============ */
+const DATA = {
+ brief:[
+  {t:"Sentralbanker holder igjen på rentekutt",trust:82,src:5,num:"Stemmer med inflasjonstall",v:"Bekreftet",why:"Lavere renter senkes langsommere enn mange håpet. Det påvirker boliglån og vekstaksjer.",spec:"Spekulasjon: markedet kan ha priset inn kutt for tidlig, og noen aktører tjener på at forventningene justeres ned."},
+  {t:"Oljeprisen svinger etter produksjonsmøte",trust:64,src:3,num:"Delvis samsvar med lagertall",v:"Delvis",why:"Påvirker kronekurs og Oslo Børs direkte.",spec:"Spekulasjon: uklare signaler fra produsentene kan være tatt i bruk for å flytte pris på kort sikt."},
+  {t:"Teknologiselskap melder rekordomsetning",trust:71,src:4,num:"Regnskap bekrefter omsetning, ikke fortjeneste",v:"Delvis",why:"Overskriftene nevner omsetning. Kontantstrømmen forteller mer.",spec:"Spekulasjon: fokuset på omsetning kan skjule svakere marginer."},
+  {t:"Rykter om oppkjøp i sjømatnæringen",trust:35,src:1,num:"Ingen offisiell børsmelding",v:"Uavklart",why:"Rene rykter kan gi kraftige kursutslag uten at noe skjer.",spec:"Spekulasjon: ryktet kan lanseres for å løfte kursen. Vent på børsmelding."},
+  {t:"Arbeidsledigheten stiger svakt i Europa",trust:88,src:6,num:"Offisiell statistikk bekrefter",v:"Bekreftet",why:"Svekker forbrukslysten og kan senke vekstutsiktene.",spec:""}
+ ],
+ picks:[
+  {n:"Equinor",tk:"EQNR",s:"Energi",r:3,up:18,dn:-14,p:58,f:"Sterk kontantstrøm og høyt utbytte",a:"Følsom for oljeprisfall",rb:-1,ob:6,ch:"same"},
+  {n:"DNB Bank",tk:"DNB",s:"Bank",r:2,up:14,dn:-10,p:62,f:"Solid kapital og stabilt utbytte",a:"Svakere boligmarked kan gi tap",rb:3,ob:1,ch:"up"},
+  {n:"Novo Nordisk",tk:"NOVO B",s:"Helse",r:3,up:22,dn:-18,p:55,f:"Langsiktig etterspørsel",a:"Konkurranse og høy verdsettelse",rb:-2,ob:0,ch:"down"},
+  {n:"Mowi",tk:"MOWI",s:"Sjømat",r:3,up:20,dn:-16,p:54,f:"Global proteinetterspørsel",a:"Biologisk risiko og laksepris",rb:-1,ob:0,ch:"same"},
+  {n:"Microsoft",tk:"MSFT",s:"Teknologi",r:3,up:19,dn:-15,p:60,f:"Skytjenester og stabile inntekter",a:"Høy verdsettelse",rb:-3,ob:0,ch:"same"},
+  {n:"ASML",tk:"ASML",s:"Halvleder",r:4,up:28,dn:-24,p:52,f:"Nøkkelrolle i brikkeproduksjon",a:"Syklisk og geopolitisk risiko",rb:-4,ob:0,ch:"up"},
+  {n:"Orkla",tk:"ORK",s:"Forbruk",r:1,up:9,dn:-6,p:66,f:"Defensivt og forutsigbart",a:"Begrenset oppside",rb:-1,ob:0,ch:"new"},
+  {n:"Telenor",tk:"TEL",s:"Telekom",r:1,up:10,dn:-7,p:64,f:"Stabilt utbytte",a:"Lav vekst",rb:-1,ob:0,ch:"same"},
+  {n:"Aker BP",tk:"AKRBP",s:"Energi",r:4,up:25,dn:-22,p:50,f:"Høy produksjon og utbytte",a:"Ren oljeprisrisiko",rb:-1,ob:9,ch:"down"},
+  {n:"Schneider Electric",tk:"SU",s:"Industri",r:2,up:15,dn:-11,p:60,f:"Energieffektivisering og elektrifisering",a:"Syklisk etterspørsel",rb:-2,ob:0,ch:"new"},
+  {n:"Kongsberg Gruppen",tk:"KOG",s:"Forsvar",r:4,up:24,dn:-20,p:53,f:"Fulle ordrebøker",a:"Politisk risiko, høy verdsettelse",rb:-2,ob:0,ch:"same"},
+  {n:"Visa",tk:"V",s:"Betaling",r:2,up:14,dn:-10,p:61,f:"Global betalingsvekst",a:"Regulatorisk press",rb:-1,ob:0,ch:"same"},
+  {n:"Gjensidige",tk:"GJF",s:"Forsikring",r:1,up:9,dn:-7,p:63,f:"Stabil lønnsomhet",a:"Skadeår kan slå ut",rb:1,ob:0,ch:"same"},
+  {n:"Nvidia",tk:"NVDA",s:"Teknologi",r:5,up:35,dn:-32,p:49,f:"Ledende innen AI-brikker",a:"Svært høy verdsettelse",rb:-5,ob:0,ch:"same"},
+  {n:"Yara",tk:"YAR",s:"Gjødsel",r:3,up:17,dn:-14,p:52,f:"Matvareetterspørsel",a:"Gasspris og råvaresyklus",rb:-1,ob:2,ch:"same"},
+  {n:"Johnson & Johnson",tk:"JNJ",s:"Helse",r:1,up:8,dn:-6,p:64,f:"Bred og defensiv portefølje",a:"Rettssaker",rb:-1,ob:0,ch:"same"},
+  {n:"Hydro",tk:"NHY",s:"Aluminium",r:3,up:19,dn:-16,p:53,f:"Fornybar kraft og aluminium",a:"Råvarepriser",rb:-1,ob:1,ch:"same"},
+  {n:"Atlas Copco",tk:"ATCO A",s:"Industri",r:2,up:14,dn:-11,p:58,f:"Kvalitet og høy avkastning på kapital",a:"Syklisk",rb:-2,ob:0,ch:"same"},
+  {n:"Storebrand",tk:"STB",s:"Finans",r:3,up:15,dn:-12,p:55,f:"Pensjon og sparing vokser",a:"Følsom for børsfall",rb:1,ob:0,ch:"same"},
+  {n:"Berkshire Hathaway",tk:"BRK.B",s:"Konglomerat",r:2,up:12,dn:-9,p:59,f:"Kontantbeholdning og spredning",a:"Avhengig av få beslutningstakere",rb:0,ob:1,ch:"same"}
+ ],
+ fc:[
+  {z:"Norge",h:"Kort sikt · 3–6 mnd",d:"flat",lab:"Avdempet vekst",why:"Høy rente demper forbruk, men oljeinntektene holder aktiviteten oppe.",chg:"Renten kuttes raskere enn ventet, eller oljen faller kraftig."},
+  {z:"Norge",h:"Lang sikt · 2–5 år",d:"up",lab:"Moderat vekst",why:"Stor statlig fondsformue og energiomstilling gir bærekraft, men oljeavhengighet er en risiko.",chg:"Varig oljeprisfall eller svakere produktivitetsvekst."},
+  {z:"Internasjonalt",h:"Kort sikt · 3–6 mnd",d:"flat",lab:"Treg og ujevn",why:"Inflasjonen er nærmere målet, men arbeidsmarkedet myker seg i flere land.",chg:"Uventet inflasjonsoppgang eller en kraftig oppbremsing i USA."},
+  {z:"Internasjonalt",h:"Lang sikt · 2–5 år",d:"up",lab:"Moderat vekst",why:"Teknologi og produktivitet løfter, mens gjeld og demografi drar ned.",chg:"Handelskonflikter som trapper opp eller en alvorlig gjeldskrise."}
+ ],
+ avis:{story:"Sentralbankens rentebesked",items:[
+  {p:"Avis A (norsk næringsliv)",a:"Nøktern",t:"Holder renten, signaliserer <mark>forsiktig kutt neste år</mark>."},
+  {p:"Avis B (britisk finans)",a:"Bekymret",t:"Rentebeskjeden <mark>skuffer markedet</mark> og kan bremse veksten."},
+  {p:"Avis C (amerikansk)",a:"Positiv",t:"Sentralbanken <mark>viser kontroll over inflasjonen</mark>."},
+  {p:"Avis D (nyhetsbyrå)",a:"Nøytral",t:"Renten uendret. Prognosene er justert svakt."}
+ ],note:"Eksempel: hovedfakta er like, men to aviser vektlegger risiko og to vektlegger kontroll."},
+ alerts:[
+  {h:"Uvanlig volum før regnskap",c:"Sjømat",lvl:62,t:"Handelsvolumet var tre ganger normalen to dager før meldingen. Kan skyldes sprikende forventninger."},
+  {h:"Kursfall uten nyhet",c:"Energi",lvl:38,t:"Fall på 4 % uten kjent årsak. Ofte teknisk salg."},
+  {h:"Ryktebasert kursstigning",c:"Småselskap",lvl:74,t:"Stigning etter anonyme innlegg på nett. Høy risiko for kunstig oppdrevet kurs."}
+ ],
+ tiles:[
+  {l:"Brent olje",v:"84 $",s:[5,6,5,7,8,7,9,8,9,10]},
+  {l:"USD / NOK",v:"10,62",s:[8,7,8,6,7,6,5,6,5,5]},
+  {l:"EUR / NOK",v:"11,70",s:[6,6,7,7,6,7,8,7,8,8]},
+  {l:"Styringsrente",v:"4,25 %",s:[9,9,9,9,8,8,8,8,8,8]},
+  {l:"Oslo Børs",v:"1 480",s:[4,5,5,6,6,7,8,8,9,9]},
+  {l:"Boligpris",v:"+3,1 % år/år",s:[3,4,4,5,5,6,6,7,7,8]}
+ ],
+ cal:[
+  {d:"23",m:"okt",t:"Regnskap fra norsk bank",k:"Regnskap"},
+  {d:"05",m:"nov",t:"Rentemøte, USA",k:"Rente"},
+  {d:"12",m:"nov",t:"Rentemøte, Norge",k:"Rente"},
+  {d:"18",m:"des",t:"Rentemøte, euroområdet",k:"Rente"},
+  {d:"28",m:"jan",t:"Kvartalstall, teknologigigantene",k:"Regnskap"}
+ ],
+ insider:[
+  {n:"Equinor",t:"Konsernleder kjøpte aksjer",v:"Kjøp",c:"g"},
+  {n:"Mowi",t:"Styremedlem solgte aksjer",v:"Salg",c:"r"},
+  {n:"DNB Bank",t:"Ledergruppe kjøpte aksjer",v:"Kjøp",c:"g"}
+ ],
+ track:[
+  ["Mai","Rentekutt innen sommeren","Traff ikke",0],
+  ["Jun","Oljen over 80 $ innen høsten","Traff",1],
+  ["Jul","Svakere NOK mot USD","Traff delvis",1],
+  ["Aug","Børsfall over 5 % innen 3 mnd","Traff ikke",0],
+  ["Sep","Inflasjon under 3 % i euroområdet","Traff",1]
+ ],
+ wkReal:["Sentralbankene signaliserer lavere kuttakt","Arbeidsmarkedet i Europa myknet","Oljeprisen steg etter produksjonssignaler"],
+ wkNoise:["Spekulasjon om oppkjøp i sjømat uten børsmelding","Dramatiske overskrifter om kursfall som snudde samme dag","Rykter i sosiale medier om «skjult krise»"],
+ sentiment:56,
+ gloss:[
+  ["Styringsrente","Renten sentralbanken setter. Den påvirker hva banker tar for lån og gir for sparing."],
+  ["Inflasjon","Hvor raskt prisene stiger. Høy inflasjon spiser opp kjøpekraften din."],
+  ["Short","Å tjene penger på at en aksje faller. Mange short-posisjoner kan også gi plutselige oppturer."],
+  ["Utbytte","Penger et selskap deler ut til aksjonærene, ofte én eller flere ganger i året."],
+  ["Volatilitet","Hvor mye kursen svinger. Høy volatilitet betyr større mulig tap og gevinst."],
+  ["Spredning","Å fordele pengene på flere selskaper og bransjer for å redusere risiko."],
+  ["Estimat","Et kvalifisert anslag, ikke et løfte. Det kan og vil ofte bomme."]
+ ]
+};
+
+/* ============ helpers ============ */
+const $=s=>document.querySelector(s);
+const fmt=n=>n.toLocaleString('nb-NO');
+$('#today').textContent=new Date().toLocaleDateString('nb-NO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+/* Brief */
+const vcol={Bekreftet:'g',Delvis:'y',Uavklart:'y',Mistenkelig:'r'};
+$('#briefList').innerHTML=DATA.brief.map((b,i)=>`
+ <div class="brief-item"><div class="num">${i+1}</div>
+  <div><h3>${b.t}</h3>
+   <span class="tag ${vcol[b.v]}">${b.v}</span> <span class="small">${b.src} kilder · ${b.num}</span>
+   <div class="why"><b>Hvorfor det betyr noe:</b> ${b.why}</div>
+   ${b.spec?`<div class="spec"><b>Bak kulissene (spekulasjon):</b> ${b.spec}</div>`:''}
+  </div>
+  <div class="trust"><div class="ring" style="--p:${b.trust};--c:${b.trust>75?'var(--up)':b.trust>50?'var(--warn)':'var(--down)'}"><i>${b.trust}</i></div><small>Tillit</small></div>
+ </div>`).join('');
+
+/* Picks */
+let riskMax=5;
+const chgTxt={up:'▲ Opp',down:'▼ Ned',new:'● Ny',same:'– Står'};
+function pickHTML(p,i){
+ const lo=-40,hi=40,pos=((p.up+p.dn)/2-lo)/(hi-lo)*100;
+ return `<div class="pick"><div class="rank">${i+1}</div>
+  <div><h3>${p.n}</h3><div class="meta"><span class="tag">${p.tk}</span><span class="tag">${p.s}</span><span class="tag y">Risiko ${p.r}/5</span><span class="chg ${p.ch}">${chgTxt[p.ch]}</span></div></div>
+  <div class="th"><div><b class="p">For:</b> ${p.f}</div><div><b class="m">Mot:</b> ${p.a}</div></div>
+  <div><span class="tag est">Estimat 12 mnd</span>
+   <div class="range"><i style="left:${Math.max(2,Math.min(98,pos+50-50))}%"></i></div>
+   <div class="rl"><span class="d">${p.dn} %</span><span class="u">+${p.up} %</span></div>
+   <div class="small">Sannsynlighet for økning: ca. ${p.p} %</div></div>
+ </div>`;
+}
+function renderPicks(){
+ const list=DATA.picks.slice(0,10).filter(p=>p.r<=riskMax);
+ $('#picks').innerHTML=list.length?list.map(pickHTML).join(''):'<p class="small">Ingen treff for valgt risikoprofil.</p>';
+ $('#riskNote').textContent=riskMax<5?`Viser risiko opptil ${riskMax}/5`:'';
+ $('#bench').innerHTML=DATA.picks.slice(10).map((p,i)=>`<div class="bcard"><span class="small">#${i+11}</span><br><b>${p.n}</b><div class="small">${p.s} · risiko ${p.r}/5</div><div class="small">Estimat: ${p.dn} % til +${p.up} %</div></div>`).join('');
+}
+document.querySelectorAll('#riskSeg button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('#riskSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');riskMax=+b.dataset.r;renderPicks();
+});
+renderPicks();
+
+/* Forecast */
+const ar={up:'↗',down:'↘',flat:'→'};
+$('#fc').innerHTML=DATA.fc.map(f=>`<div class="card fc">
+ <div class="hz"><div><div class="eyebrow">${f.z}</div><h3>${f.lab}</h3></div><div class="arrow ${f.d}">${ar[f.d]}</div></div>
+ <div class="small">${f.h} <span class="tag est" style="margin-left:6px">Estimat</span></div>
+ <p>${f.why}</p><div class="change"><b>Vi endrer vurdering hvis:</b> ${f.chg}</div></div>`).join('');
+
+/* Avis */
+$('#avisBox').innerHTML=`<h3 class="serif" style="font-size:26px;color:var(--green)">${DATA.avis.story}</h3>
+ <div class="papers">${DATA.avis.items.map(i=>`<div class="paper"><b>${i.p}</b><div class="ang">Vinkling: ${i.a}</div><p>${i.t}</p></div>`).join('')}</div>
+ <p class="small" style="margin-top:12px">${DATA.avis.note}</p>`;
+
+/* Alerts */
+$('#alerts').innerHTML=DATA.alerts.map(a=>`<div class="alert"><div><h4>${a.h}</h4><span class="tag">${a.c}</span><p style="margin-top:6px">${a.t}</p></div>
+ <div class="meter"><div class="small">Mistanke-nivå (est.)</div><div class="bar"><i style="width:${a.lvl}%"></i></div><b>${a.lvl} %</b></div></div>`).join('');
+
+/* Tiles */
+function spark(s){const w=100,h=36,mx=Math.max(...s),mn=Math.min(...s);
+ const pts=s.map((v,i)=>`${(i/(s.length-1)*w).toFixed(1)},${(h-4-(v-mn)/(mx-mn||1)*(h-8)).toFixed(1)}`).join(' ');
+ return `<svg viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#b08d4a" stroke-width="1.6" vector-effect="non-scaling-stroke" points="${pts}"/></svg>`;}
+$('#tiles').innerHTML=DATA.tiles.map(t=>`<div class="card tile"><div class="l">${t.l}</div><div class="v">${t.v}</div>${spark(t.s)}</div>`).join('');
+
+/* Calendar */
+$('#cal').innerHTML=DATA.cal.map(c=>`<div class="cal"><div class="dt">${c.d}<small>${c.m}</small></div><div>${c.t}</div><span class="tag">${c.k}</span></div>`).join('')+'<p class="small" style="margin-top:10px">Datoene er eksempler.</p>';
+
+/* Insider */
+$('#insider').innerHTML=DATA.insider.map(i=>`<div class="prow"><div><b class="serif" style="font-size:19px;color:var(--green)">${i.n}</b><div class="small">${i.t}</div></div><span class="tag ${i.c}">${i.v}</span></div>`).join('');
+
+/* Track */
+$('#track').innerHTML=DATA.track.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]?'<span class="tag g">✓</span>':'<span class="tag r">✗</span>'}</td></tr>`).join('');
+$('#hit').textContent=Math.round(DATA.track.filter(r=>r[3]).length/DATA.track.length*100)+' %';
+
+/* Sentiment */
+$('#sentPin').style.left=`calc(${DATA.sentiment}% - 2px)`;
+$('#sentTxt').textContent=DATA.sentiment>65?'Dekningen er unormalt optimistisk. Vær skeptisk til hype.':DATA.sentiment<35?'Dekningen er unormalt redd. Panikk gir ofte dårlige beslutninger.':'Dekningen er nokså balansert i dag.';
+
+/* Week */
+$('#wkReal').innerHTML=DATA.wkReal.map(x=>`<li>${x}</li>`).join('');
+$('#wkNoise').innerHTML=DATA.wkNoise.map(x=>`<li>${x}</li>`).join('');
+
+/* Glossary */
+$('#gloss').innerHTML=DATA.gloss.map(g=>`<details><summary>${g[0]}</summary><p>${g[1]}</p></details>`).join('');
+
+/* Portfolio */
+$('#names').innerHTML=DATA.picks.map(p=>`<option value="${p.n}">`).join('');
+let port=[];try{port=JSON.parse(localStorage.getItem('meridian_port')||'[]')}catch(e){}
+function save(){try{localStorage.setItem('meridian_port',JSON.stringify(port))}catch(e){}}
+function renderPort(){
+ $('#pList').innerHTML=port.length?port.map((x,i)=>`<div class="prow"><div><b>${x.n}</b><div class="small">${fmt(x.a)} kr</div></div><button class="btn ghost" data-i="${i}">Fjern</button></div>`).join(''):'<p class="small">Ingen posisjoner lagt til ennå.</p>';
+ document.querySelectorAll('#pList button').forEach(b=>b.onclick=()=>{port.splice(+b.dataset.i,1);save();renderPort();sim()});
+}
+$('#pAdd').onclick=()=>{const n=$('#pName').value.trim(),a=+$('#pAmt').value;if(!n||!(a>0))return;port.push({n,a});save();$('#pName').value='';$('#pAmt').value='';renderPort();sim()};
+renderPort();
+
+/* Scenario */
+function sim(){
+ const r=+$('#rate').value,o=+$('#oil').value;
+ $('#rv').textContent=(r>0?'+':'')+r.toFixed(2).replace('.',',')+' pp';
+ $('#ov').textContent=(o>0?'+':'')+o+' %';
+ let tot=0,chg=0;
+ port.forEach(x=>{
+  const p=DATA.picks.find(q=>q.n.toLowerCase()===x.n.toLowerCase());
+  const e=p?(p.rb*r+p.ob*(o/10)):0; /* % */
+  tot+=x.a;chg+=x.a*e/100;
+ });
+ if(!tot){$('#simOut').textContent='–';$('#simTxt').textContent='Legg til posisjoner i porteføljen for å se et estimat. Selskaper utenfor listen regnes uten følsomhet.';return}
+ const pct=chg/tot*100;
+ $('#simOut').innerHTML=`<span class="${pct>=0?'up':'down'}">${pct>=0?'+':''}${pct.toFixed(1).replace('.',',')} %</span> <span class="small">(${chg>=0?'+':''}${fmt(Math.round(chg))} kr)</span>`;
+ $('#simTxt').textContent='Estimert effekt på porteføljen ved dette scenarioet. Forenklet modell, ikke en prognose.';
+}
+$('#rate').oninput=sim;$('#oil').oninput=sim;sim();
+
+/* Nav highlight */
+const links=[...document.querySelectorAll('#nav a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-40% 0px -55% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+window.onAndroidBack=function(){if(window.scrollY>200){window.scrollTo({top:0,behavior:"smooth"});return true}return false};
+</script>
+</body>
+</html>
